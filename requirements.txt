@@ -4,9 +4,13 @@ asyncio==3.4.3
 certifi==2024.8.30
 charset-normalizer==3.4.0
 exceptiongroup==1.2.2
+googletrans==4.0.2
 h11==0.14.0
+h2==4.1.0
+hpack==4.0.0
 httpcore==1.0.7
 httpx==0.27.2
+hyperframe==6.0.1
 idna==3.10
 ollama==0.4.1
 pydantic==2.10.2
