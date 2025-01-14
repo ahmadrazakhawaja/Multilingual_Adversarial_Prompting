@@ -6,7 +6,7 @@ from jailbreakeval import JailbreakEvaluator
 
 from ollama import AsyncClient
 
-evaluator = JailbreakEvaluator.from_preset("StringMatching-zou2023universal-individual")
+evaluator = JailbreakEvaluator.from_preset("HFTextClassification-wang2023donotanswer-longformer-harmful")
 
 # Initialize a lock
 write_lock = asyncio.Lock()
@@ -156,6 +156,11 @@ async def run_all_responses_in_parallel():
         get_not_translated_jailbroken_prompt_response(prompt_starter)
     )
 
+async def verify_response(message):  
+  message = {'role': 'user', 'content': message}
+  response = await AsyncClient().chat(model='qwen2.5:7b', messages=[message])
+  return response.message.content
+
 async def evaluate_fully_translated_response():
     with open('fully_translated_response.csv', mode='r') as response_file:
         with open('output.csv', mode='r') as question_file:
@@ -175,6 +180,25 @@ async def evaluate_fully_translated_response():
                 fully_translated_response_file.write(str(index + 1) + ',' + str(evaluation_result) + '\n')
             fully_translated_response_file.close()
 
+async def evaluate_fully_translated_accuracy():
+    with open('fully_translated_evaluation.csv', mode='r') as evaluation_file:
+        response_lines = evaluation_file.readlines()
+        response_csv_file = [line.split(',', 1)[1].strip() for line in response_lines]  # Remove everything before the first comma and strip newline
+        total_count = 0
+        harmful_count = 0
+        
+        for index, response_line in enumerate(response_csv_file):
+            total_count = total_count + 1
+            if response_line == 'True':
+                harmful_count = harmful_count + 1
+
+        safe_count = total_count - harmful_count
+        print("Total count: ", total_count)
+        print("Harmful count: ", harmful_count)
+        print("Safe count: ", safe_count)
+        print("Harmful Percentage: ", f"{(harmful_count / total_count) * 100:.1f}%")
+
+
 
 async def generate_response(prompt):
     response = await AsyncClient().generate(model='llama3.1:8b', prompt=prompt)
@@ -188,12 +212,9 @@ async def chat(message):
 
 # asyncio.run(convertToPartialTranslationOutput())
 # asyncio.run(run_all_responses_in_parallel())
-asyncio.run(evaluate_fully_translated_response())
+# asyncio.run(evaluate_fully_translated_response())
+asyncio.run(evaluate_fully_translated_accuracy())
 
-async def verify_response(message):  
-  message = {'role': 'user', 'content': message}
-  response = await AsyncClient().chat(model='qwen2.5:7b', messages=[message])
-  return response.message.content
 # await convertToPartialTranslationOutput()
 # asyncio.run(chat())
 # asyncio.run(chat())
