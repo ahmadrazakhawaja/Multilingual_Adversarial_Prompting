@@ -1,4 +1,4 @@
-# multilangual Adversarial Promtping
+# Multilingual Adversarial Prompting
 
 Python based pipeline setup for Adversarial Prompts and their evaluation on LLama3.1:7b and Qwen2.5:7b models.
 
