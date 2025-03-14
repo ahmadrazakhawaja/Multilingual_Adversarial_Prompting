@@ -2,7 +2,6 @@ import asyncio
 from jailbreakeval import JailbreakEvaluator
 from data_reader import write_lock
 
-# Example: change the preset if you have a different evaluator
 evaluator = JailbreakEvaluator.from_preset("HFTextClassification-wang2023donotanswer-longformer-harmful")
 
 async def evaluate_responses(
