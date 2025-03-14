@@ -2,4 +2,4 @@
 
 Python based pipeline setup for Adversarial Prompts and their evaluation on LLama3.1:7b and Qwen2.5:7b models.
 
-![Pipeline_Diagram drawio (5)](https://github.com/user-attachments/assets/a542fc14-338a-4968-9124-6431fd504da8)
+![Pipeline_Diagram-Step5 drawio](https://github.com/user-attachments/assets/9db7df06-36cb-4d45-826e-3a722283f0c5)
