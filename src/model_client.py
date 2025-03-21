@@ -1,5 +1,3 @@
-# model_client.py
-
 from ollama import AsyncClient
 
 async def generate_response(prompt: str, model) -> str:
